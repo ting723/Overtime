@@ -9,6 +9,4 @@
 	<!-- 启用spring mvc 注解 -->
 	<context:annotation-config />
 
-	<!-- 设置使用注解的类所在的jar包 -->
-	<context:component-scan base-package="overtime.zhanglw.www.controller"/>
 </beans>

@@ -2,8 +2,11 @@ package overtime.zhanglw.www.util;
 
 public class ExcelUtil {
 
-	public static void createExcel() {
+	public static String createExcel(String json) {
 
+		String url="";
+		
+		return url;
 	}
 
 }
