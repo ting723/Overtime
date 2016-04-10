@@ -46,7 +46,16 @@
 		<filter-name>HiddenHttpMethodFilter</filter-name>
 		<servlet-name>springmvc</servlet-name>
 	</filter-mapping>
+
+	<filter>
+		<filter-name>CorsFilter</filter-name>
+		<filter-class>overtime.zhanglw.www.util.CorsFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>CorsFilter</filter-name>
+		<url-pattern>/*.json</url-pattern>
+	</filter-mapping>
 	<!-- Welcome -->
-	<!-- <welcome-file-list> <welcome-file>index.jsp</welcome-file> </welcome-file-list> <welcome-file-list> <welcome-file>index.html</welcome-file> <welcome-file>index.htm</welcome-file> <welcome-file>index.jsp</welcome-file> 
-		<welcome-file>default.html</welcome-file> <welcome-file>default.htm</welcome-file> <welcome-file>default.jsp</welcome-file> </welcome-file-list> -->
+	<!-- <welcome-file-list> <welcome-file>index.jsp</welcome-file> </welcome-file-list> <welcome-file-list> <welcome-file>index.html</welcome-file> <welcome-file>index.htm</welcome-file> 
+		<welcome-file>index.jsp</welcome-file> <welcome-file>default.html</welcome-file> <welcome-file>default.htm</welcome-file> <welcome-file>default.jsp</welcome-file> </welcome-file-list> -->
 </web-app>

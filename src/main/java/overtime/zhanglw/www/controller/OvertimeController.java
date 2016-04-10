@@ -15,7 +15,7 @@ public class OvertimeController {
 	public Map<String, String> generateExcel(String json) {
 		Map<String,String> map = new HashMap<>();
 		map.put("result", json);
-		
+		System.out.println(json);
 		return map;
 	}
 }

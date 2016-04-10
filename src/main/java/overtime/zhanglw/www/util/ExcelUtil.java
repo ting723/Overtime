@@ -8,5 +8,10 @@ public class ExcelUtil {
 		
 		return url;
 	}
+	
+	public static void readExcel(String url){
+		
+	}
 
+	
 }
