@@ -1,21 +1,14 @@
 package overtime.zhanglw.www.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@RequestMapping("overtime")
+@RestController
 public class OvertimeController {
-	@RequestMapping("test")
-	@ResponseBody
-	public Map<String, String> generateExcel(String json) {
-		Map<String,String> map = new HashMap<>();
-		map.put("result", json);
+	@RequestMapping("/getExcel")
+	public String generateExcel(@RequestParam(value="json", defaultValue="^Hello,Boys And Girls!^")String json) {
 		System.out.println(json);
-		return map;
+		return json;
 	}
 }

@@ -1,0 +1,3 @@
+spring boot test 
+${application.formatted-version}
+${spring-boot.formatted-version}
