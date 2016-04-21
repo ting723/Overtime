@@ -2,11 +2,13 @@ package overtime.zhanglw.www.util;
 
 import java.io.IOException;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.core.io.ClassPathResource;
 
 public class ExcelUtil {
 
@@ -18,26 +20,31 @@ public class ExcelUtil {
 	}
 
 	public static void readExcel(String url) {
-
-		FileSystemResource file = new FileSystemResource("classpath:excel/q.xlsx");
+		
 		try {
-			POIFSFileSystem poifsFileSystem = new POIFSFileSystem(file.getInputStream());
-			HSSFWorkbook hssfWorkbook = new HSSFWorkbook(poifsFileSystem);
-			HSSFSheet hssfSheet = hssfWorkbook.getSheetAt(0);
+			ClassPathResource file = new ClassPathResource(url);
+			Workbook wb = null;
+			String fileType = url.substring(url.length() - 4).replace(".", "");
+			if (fileType.equals("xls")) {
+				wb = new HSSFWorkbook(file.getInputStream());
+			} else if (fileType.equals("xlsx")) {
+				wb = new XSSFWorkbook(file.getInputStream());
+			}
+
+			Sheet sheet1 = wb.getSheetAt(0);
+			for (Row row : sheet1) {
+				for (Cell cell : row) {
+					System.out.print(cell.getStringCellValue() + "  ");
+				}
+				System.out.println();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		String var1 = System.getProperty("user.home");
-		String var2 = System.getProperty("user.dir");
-		String var3 = ExcelUtil.class.getResource("").getPath();
-		String var4 = ClassLoader.getSystemResource("").getPath();
-		String var5 = Resource.class.getResource("").getPath();
-
-		System.out.println(var1 + "\n" + var2 + "\n" + var3 + "\n" + var4 + "\n" + var5 + "\n" + file.getPath());
 	}
 
 	public static void main(String[] args) {
-		ExcelUtil.readExcel("");
+		ExcelUtil.readExcel("excel/q.xlsx");
 	}
 
 }
