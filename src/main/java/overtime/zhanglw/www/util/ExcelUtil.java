@@ -1,5 +1,6 @@
 package overtime.zhanglw.www.util;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -20,7 +21,7 @@ public class ExcelUtil {
 	}
 
 	public static void readExcel(String url) {
-		
+
 		try {
 			ClassPathResource file = new ClassPathResource(url);
 			Workbook wb = null;
@@ -32,19 +33,23 @@ public class ExcelUtil {
 			}
 
 			Sheet sheet1 = wb.getSheetAt(0);
+			sheet1.shiftRows(4, 12, 5);
 			for (Row row : sheet1) {
 				for (Cell cell : row) {
 					System.out.print(cell.getStringCellValue() + "  ");
 				}
 				System.out.println();
 			}
+			FileOutputStream fOut = new FileOutputStream(file.getFile().getAbsolutePath());
+			wb.write(fOut);
+			fOut.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public static void main(String[] args) {
-		ExcelUtil.readExcel("excel/q.xlsx");
+		ExcelUtil.readExcel("excel/model.xlsx");
 	}
 
 }

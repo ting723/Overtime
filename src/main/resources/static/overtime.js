@@ -1,8 +1,7 @@
 var url = 'http://localhost:8080/getExcel?json=';
-var user_name = User_Name;
+var name = User_Name;
 var id = WEBID;
-var emptyId = WEBID.split('').reverse().toString().replace(/,/g, '').substr(0,
-		7);
+var emptyId = WEBID.split('').reverse().toString().replace(/,/g, '').substr(0, 7);
 var data = document.forms[0].lastChild.previousSibling;
 var allrows = data.rows;
 var overtimeArr = [];
@@ -26,7 +25,7 @@ function timedGetText(rurl, time, callback) {
 		timeout = true;
 		request.abort();
 	}, time);
-	request.open("GET", rurl,true);
+	request.open("GET", rurl, true);
 	request.onreadystatechange = function() {
 		if (request.readyState !== 4)
 			return;
@@ -56,7 +55,7 @@ for (var i = 0; i < allrows.length; i++) {
 	}
 }
 
-function echo(text){
+function echo(text) {
 	alert(text);
 }
 var obj = {
@@ -66,5 +65,5 @@ var obj = {
 	timeArr : overtimeArr
 };
 var json = JSON.stringify(obj);
-url=url+encodeURIComponent(json);
-timedGetText(url,time,echo);
+url = url + encodeURIComponent(json);
+timedGetText(url, time, echo);

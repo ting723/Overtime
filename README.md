@@ -1,9 +1,13 @@
 # Overtime
-Auto generate an overtime table
+**Auto generate an overtime table**
 
-#开发步骤
-##1.生成Excel
-### 1.1 读取Excel模板
-### 1.2 生成Excel
-##2.实现http调用
-##3.生成下载链接
+
+# 第一版
+* js 负责传递数据
+* 后台生成excel文件
+
+# 开发新想法
+## js->html表格->Excel
+* 实现比较困难
+* 发生变更时,只需要改js就可以,不需要改java代码
+
