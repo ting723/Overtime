@@ -9,7 +9,9 @@ public class Employee implements Serializable {
 
 	private String name;
 
-	private String EmployeeNo;
+	private String emptyId;
+	
+	private String id;
 
 	private List<OverTimeBean> ovetTimeList;
 
@@ -21,12 +23,12 @@ public class Employee implements Serializable {
 		this.name = name;
 	}
 
-	public String getEmployeeNo() {
-		return EmployeeNo;
+	public String getEmptyId() {
+		return emptyId;
 	}
 
-	public void setEmployeeNo(String employeeNo) {
-		EmployeeNo = employeeNo;
+	public void setEmptyId(String emptyId) {
+		this.emptyId = emptyId;
 	}
 
 	public List<OverTimeBean> getOvetTimeList() {
@@ -41,4 +43,13 @@ public class Employee implements Serializable {
 		return serialVersionUID;
 	}
 
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	
 }

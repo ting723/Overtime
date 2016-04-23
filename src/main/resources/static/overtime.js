@@ -56,13 +56,14 @@ for (var i = 0; i < allrows.length; i++) {
 }
 
 function echo(text) {
-	alert(text);
+	// alert(text);
+	window.location.href=text;
 }
 var obj = {
 	name : name,
 	id : id,
 	emptyId : emptyId,
-	timeArr : overtimeArr
+	ovetTimeList : overtimeArr
 };
 var json = JSON.stringify(obj);
 url = url + encodeURIComponent(json);
