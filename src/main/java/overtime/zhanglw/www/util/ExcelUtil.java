@@ -8,12 +8,12 @@ import java.text.SimpleDateFormat;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.poi.xssf.usermodel.extensions.XSSFCellFill;
 import org.springframework.core.io.ClassPathResource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -52,6 +52,10 @@ public class ExcelUtil {
 				wb = new XSSFWorkbook(file.getInputStream());
 			}
 
+			Font font = wb.createFont();
+			font.setFontName("微软雅黑");
+			font.setFontHeightInPoints((short) 10);
+			
 			CellStyle dateStyle = wb.createCellStyle();
 			DataFormat dateFormat = wb.createDataFormat();
 			dateStyle.setDataFormat(dateFormat.getFormat("yyyy-MM-dd"));
@@ -59,12 +63,27 @@ public class ExcelUtil {
 			dateStyle.setBorderLeft(XSSFCellStyle.BORDER_THIN);//左边框    
 			dateStyle.setBorderTop(XSSFCellStyle.BORDER_THIN);//上边框    
 			dateStyle.setBorderRight(XSSFCellStyle.BORDER_THIN);//右边框 
+			dateStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER); 
+			dateStyle.setFont(font);
 			
 			CellStyle commonStyle = wb.createCellStyle();
 			commonStyle.setBorderBottom(XSSFCellStyle.BORDER_THIN); //下边框    
 			commonStyle.setBorderLeft(XSSFCellStyle.BORDER_THIN);//左边框    
 			commonStyle.setBorderTop(XSSFCellStyle.BORDER_THIN);//上边框    
 			commonStyle.setBorderRight(XSSFCellStyle.BORDER_THIN);//右边框 
+			commonStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER); 
+			commonStyle.setFont(font);
+			
+			
+			CellStyle numStyle = wb.createCellStyle();
+			DataFormat numformat = wb.createDataFormat();
+			numStyle.setBorderBottom(XSSFCellStyle.BORDER_THIN); //下边框    
+			numStyle.setBorderLeft(XSSFCellStyle.BORDER_THIN);//左边框    
+			numStyle.setBorderTop(XSSFCellStyle.BORDER_THIN);//上边框    
+			numStyle.setBorderRight(XSSFCellStyle.BORDER_THIN);//右边框 
+			numStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER); 
+			numStyle.setFont(font);
+			numStyle.setDataFormat(numformat.getFormat("0.0"));
 			
 			Sheet sheet1 = wb.getSheetAt(0);
 			for (int i = 0; i < employee.getOvetTimeList().size(); i++) {
@@ -101,11 +120,11 @@ public class ExcelUtil {
 				row.getCell(6).setCellStyle(commonStyle);
 
 				row.createCell(7);
-				row.getCell(7).setCellValue("1");
-				row.getCell(7).setCellStyle(commonStyle);
+				row.getCell(7).setCellValue(bean.getDuration());
+				row.getCell(7).setCellStyle(numStyle);
 
 				row.createCell(8);
-				row.getCell(8).setCellValue("加班");
+				row.getCell(8).setCellValue(bean.getRemark());
 				row.getCell(8).setCellStyle(commonStyle);
 
 				row.createCell(9);

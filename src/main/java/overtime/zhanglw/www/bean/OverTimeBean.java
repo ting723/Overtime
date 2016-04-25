@@ -1,7 +1,5 @@
 package overtime.zhanglw.www.bean;
 
-import java.util.Date;
-
 public class OverTimeBean {
 
 	private String date;
@@ -10,11 +8,13 @@ public class OverTimeBean {
 
 	private String end;
 
-	private String duration;
+	private Double duration;
 
 	private String remark;
 
 	private Integer flag;
+	
+	private String period;
 
 	public String getDate() {
 		return date;
@@ -40,11 +40,11 @@ public class OverTimeBean {
 		this.end = end;
 	}
 
-	public String getDuration() {
+	public Double getDuration() {
 		return duration;
 	}
 
-	public void setDuration(String duration) {
+	public void setDuration(Double duration) {
 		this.duration = duration;
 	}
 
@@ -62,5 +62,13 @@ public class OverTimeBean {
 
 	public void setFlag(Integer flag) {
 		this.flag = flag;
+	}
+
+	public String getPeriod() {
+		return period;
+	}
+
+	public void setPeriod(String period) {
+		this.period = period;
 	}
 }
