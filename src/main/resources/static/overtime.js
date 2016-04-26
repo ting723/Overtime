@@ -1,3 +1,31 @@
+addJS("http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js");
+addJS("http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js");
+addCSS("http://apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css");
+addHTML("<div id=\"mydialog\" title=\"基本的对话框\">  <p>这是一个默认的对话框，用于显示信息。对话框窗口可以移动，调整尺寸，默认可通过 'x' 图标关闭。</p></div>");
+
+function addJS(js_url){
+	var jq = document.createElement('SCRIPT');
+	jq.type = 'text/javascript';
+	jq.src = js_url;
+	jq.charset = 'utf-8';
+	document.getElementsByTagName('body')[0].appendChild(jq);
+}
+
+function addCSS(css_url){
+	var jcss = document.createElement('link');
+	jcss.rel = 'stylesheet';
+	jcss.href = css_url;
+	jcss.charset = 'utf-8';
+	document.getElementsByTagName('body')[0].appendChild(jcss);
+}
+
+function addHTML(html){
+	var div = document.createElement("div");
+	div.id = "myDiv";
+	div.innerHTML =html;
+	document.body.appendChild(div);
+}
+
 var url = 'http://localhost:8080/getExcel?json=';
 var name = User_Name;
 var id = WEBID;
@@ -6,13 +34,14 @@ var data = document.forms[0].lastChild.previousSibling;
 var allrows = data.rows;
 var overtimeArr = [];
 var count = 0;
-var contions = /([0-9]{2}\/){2}[0-9]{4}/g;
+var contions = /([0-9]{2}\/){2}[0-9]{4}/;
 var dateIndex = 1;
 var startIndex = 4;
 var endIndex = 9;
 var recordingIndex = 10;
 var time = 30000;
-function WorkObj(flag, date, start, end, duration, period,remark) {
+
+function WorkObj(flag, date, start, end, duration, period, remark) {
 	this.flag = flag;
 	this.date = date;
 	this.start = start;
@@ -21,6 +50,7 @@ function WorkObj(flag, date, start, end, duration, period,remark) {
 	this.period = period;
 	this.remark = remark;
 };
+
 function timedGetText(rurl, time, callback) {
 	var request = new XMLHttpRequest();
 	var timeout = false;
@@ -41,16 +71,18 @@ function timedGetText(rurl, time, callback) {
 	}
 	request.send();
 }
+
 for (var i = 0; i < allrows.length; i++) {
 	var cells = allrows[i].cells;
 	if (contions.test(cells[dateIndex].innerText.trim())) {
 		var flag = 0;
-		var date = cells[dateIndex].innerText.trim();
+		var date = cells[dateIndex].innerText.trim().replace(/\*/, '');
 		var start = cells[startIndex].innerText.trim();
 		var end = cells[endIndex].innerText.trim();
 		var record = cells[recordingIndex].innerText.trim();
-		if (record != null && record != '' && record.length > 10) {
-			start = parseInt(start.replace(/:/, "")) < 900 ? "9:00" : start;
+		if (record != null && record != '' && record.length >= 10) {
+			start = parseInt(start.replace(/:/, '')) < 900 ? '9:00' : start;
+			end = parseInt(end.replace(/:/, '')) < 1800 ? record.slice(-5) : end;
 			var duration;
 			var period;
 			if (start == '' && end == '') {
@@ -69,10 +101,12 @@ for (var i = 0; i < allrows.length; i++) {
 			var tempValue1 = duration * 10;
 			var tempValue2 = duration * 10 % 5;
 			duration = (tempValue1 - tempValue2) / 10;
-			var remark = "TESSSSSSSS";
-			var workObj = new WorkObj(flag, date, start, end, duration,period,remark);
+			var remark = "加班";
+			var workObj = new WorkObj(flag, date, start, end, duration, period, remark);
 			overtimeArr[count++] = workObj;
 		}
+		
+		
 	}
 }
 
@@ -100,5 +134,11 @@ var obj = {
 };
 var json = JSON.stringify(obj);
 url = url + encodeURIComponent(json);
-timedGetText(url, time, echo);
+
+$("#mydialog").dialog();
+
+//timedGetText(url, time, echo);
+
+
+
 
