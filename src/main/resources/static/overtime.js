@@ -1,30 +1,32 @@
-addJS("http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js");
-addJS("http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js");
-addCSS("http://apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css");
-addHTML("<div id=\"mydialog\" title=\"基本的对话框\">  <p>这是一个默认的对话框，用于显示信息。对话框窗口可以移动，调整尺寸，默认可通过 'x' 图标关闭。</p></div>");
+javascript: (function() {
+	addJS("http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js");
+//	addJS("http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js");
+//	addCSS("http://apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css");
+//	addHTML("<div id=\"mydialog\" title=\"加班时间信息\"></div>");
 
-function addJS(js_url){
-	var jq = document.createElement('SCRIPT');
-	jq.type = 'text/javascript';
-	jq.src = js_url;
-	jq.charset = 'utf-8';
-	document.getElementsByTagName('body')[0].appendChild(jq);
-}
+	function addJS(js_url) {
+		var jq = document.createElement('SCRIPT');
+		jq.type = 'text/javascript';
+		jq.src = js_url;
+		jq.charset = 'utf-8';
+		document.getElementsByTagName('head')[0].appendChild(jq);
+	}
 
-function addCSS(css_url){
-	var jcss = document.createElement('link');
-	jcss.rel = 'stylesheet';
-	jcss.href = css_url;
-	jcss.charset = 'utf-8';
-	document.getElementsByTagName('body')[0].appendChild(jcss);
-}
-
-function addHTML(html){
-	var div = document.createElement("div");
-	div.id = "myDiv";
-	div.innerHTML =html;
-	document.body.appendChild(div);
-}
+//	function addCSS(css_url) {
+//		var jcss = document.createElement('LINK');
+//		jcss.rel = 'stylesheet';
+//		jcss.href = css_url;
+//		jcss.charset = 'utf-8';
+//		document.getElementsByTagName('head')[0].appendChild(jcss);
+//	}
+//
+//	function addHTML(html) {
+//		var div = document.createElement("div");
+//		div.id = "myDiv";
+//		div.innerHTML = html;
+//		document.body.appendChild(div);
+//	}
+})();
 
 var url = 'http://localhost:8080/getExcel?json=';
 var name = User_Name;
@@ -105,8 +107,7 @@ for (var i = 0; i < allrows.length; i++) {
 			var workObj = new WorkObj(flag, date, start, end, duration, period, remark);
 			overtimeArr[count++] = workObj;
 		}
-		
-		
+
 	}
 }
 
@@ -135,10 +136,7 @@ var obj = {
 var json = JSON.stringify(obj);
 url = url + encodeURIComponent(json);
 
-$("#mydialog").dialog();
+$('head').text();
 
-//timedGetText(url, time, echo);
-
-
-
+// timedGetText(url, time, echo);
 
