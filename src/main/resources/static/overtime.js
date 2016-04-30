@@ -12,6 +12,8 @@ var startIndex = 4;
 var endIndex = 9;
 var recordingIndex = 10;
 var time = 30000;
+var url1;
+var url2;
 
 function WorkObj(flag, date, start, end, duration, period, remark) {
 	this.flag = flag;
@@ -52,8 +54,31 @@ function getAllows() {
 			var date = cells[dateIndex].innerText.trim().replace(/\*/, '');
 			var start = cells[startIndex].innerText.trim();
 			var end = cells[endIndex].innerText.trim();
-			var record = cells[recordingIndex].innerText.trim();
-			if (record != null && record != '' && record.length >= 10) {
+			var record = cells[recordingIndex].innerText.trim().replace(/\s/g, "");
+			if (record != null && record != '' && record.length >= 5) {
+				if (parseInt(record.substr(0, 5).replace(/:/, '')) <= 700) {
+					var r1 = record.substr(0, 5);
+					var tempS = r1;
+					var r2 = record.substr(5, 5);
+					if (r2 != '' && parseInt(r2.replace(/:/, '')) <= 700) {
+						tempS = r2;
+						var r3 = record.substr(10, 5);
+						if (r3 != '' && parseInt(r3.replace(/:/, '')) <= 700) {
+							tempS = r3;
+						}
+					}
+					if (start == '' && end == '') {
+						falg = 1;
+					}
+					var tempDuration = timeDiff('00:00', tempS).toFixed(1);
+					var t1 = tempDuration * 10;
+					var t2 = tempDuration * 10 % 5;
+					var td = (t1 - t2) / 10;
+					var workObj = new WorkObj(flag, date, "00:00", tempS, td, "00:00" + "-" + tempS, remark);
+					overtimeArr[count++] = workObj;
+				}
+				if (record.length < 10)
+					continue;
 				start = parseInt(start.replace(/:/, '')) < 900 ? '9:00' : start;
 				end = parseInt(end.replace(/:/, '')) < 1800 ? record.slice(-5) : end;
 				var duration;
@@ -74,7 +99,7 @@ function getAllows() {
 				var tempValue1 = duration * 10;
 				var tempValue2 = duration * 10 % 5;
 				duration = (tempValue1 - tempValue2) / 10;
-				var remark = "加班";
+				var remark = "";
 				var workObj = new WorkObj(flag, date, start, end, duration, period, remark);
 				overtimeArr[count++] = workObj;
 			}
@@ -96,8 +121,10 @@ function timeDiff(startTime, endTime) {
 
 // 处理数据后相应
 function echo(text) {
-	// alert(text);
-	window.location.href = text;
+	var urlArr = text.split("$");
+	url1 = urlArr[0];
+	url2 = urlArr[1];
+	window.location.href = url1;
 }
 var obj = {
 	name : name,
@@ -107,13 +134,12 @@ var obj = {
 };
 
 function overtimeRun() {
+	getAllows();
 	var json = JSON.stringify(obj);
 	url = url + encodeURIComponent(json);
-	$('#mydialog').dialog();
-	// timedGetText(url, time, echo);
+	timedGetText(url, time, echo);
 }
 
 (function() {
-	getAllows();
 	overtimeRun();
 })();
