@@ -44,40 +44,42 @@ function timedGetText(rurl, time, callback) {
 	request.send();
 }
 
-for (var i = 0; i < allrows.length; i++) {
-	var cells = allrows[i].cells;
-	if (contions.test(cells[dateIndex].innerText.trim())) {
-		var flag = 0;
-		var date = cells[dateIndex].innerText.trim().replace(/\*/, '');
-		var start = cells[startIndex].innerText.trim();
-		var end = cells[endIndex].innerText.trim();
-		var record = cells[recordingIndex].innerText.trim();
-		if (record != null && record != '' && record.length >= 10) {
-			start = parseInt(start.replace(/:/, '')) < 900 ? '9:00' : start;
-			end = parseInt(end.replace(/:/, '')) < 1800 ? record.slice(-5) : end;
-			var duration;
-			var period;
-			if (start == '' && end == '') {
-				flag = 1;
-				start = record.substr(0, 5);
-				end = record.slice(-5);
-				duration = timeDiff(start, end).toFixed(1);
-				period = start + "-" + end;
-			} else {
-				duration = (timeDiff(start, end) - 10).toFixed(1);
-				if (timeDiff(start, end) < 11) {
-					continue;
+function getAllows() {
+	for (var i = 0; i < allrows.length; i++) {
+		var cells = allrows[i].cells;
+		if (contions.test(cells[dateIndex].innerText.trim())) {
+			var flag = 0;
+			var date = cells[dateIndex].innerText.trim().replace(/\*/, '');
+			var start = cells[startIndex].innerText.trim();
+			var end = cells[endIndex].innerText.trim();
+			var record = cells[recordingIndex].innerText.trim();
+			if (record != null && record != '' && record.length >= 10) {
+				start = parseInt(start.replace(/:/, '')) < 900 ? '9:00' : start;
+				end = parseInt(end.replace(/:/, '')) < 1800 ? record.slice(-5) : end;
+				var duration;
+				var period;
+				if (start == '' && end == '') {
+					flag = 1;
+					start = record.substr(0, 5);
+					end = record.slice(-5);
+					duration = timeDiff(start, end).toFixed(1);
+					period = start + "-" + end;
+				} else {
+					duration = (timeDiff(start, end) - 10).toFixed(1);
+					if (timeDiff(start, end) < 11) {
+						continue;
+					}
+					period = parseInt(start.substr(0, 2)) + 10 + start.substr(-3) + "-" + end;
 				}
-				period = parseInt(start.substr(0, 2)) + 10 + start.substr(-3) + "-" + end;
+				var tempValue1 = duration * 10;
+				var tempValue2 = duration * 10 % 5;
+				duration = (tempValue1 - tempValue2) / 10;
+				var remark = "加班";
+				var workObj = new WorkObj(flag, date, start, end, duration, period, remark);
+				overtimeArr[count++] = workObj;
 			}
-			var tempValue1 = duration * 10;
-			var tempValue2 = duration * 10 % 5;
-			duration = (tempValue1 - tempValue2) / 10;
-			var remark = "加班";
-			var workObj = new WorkObj(flag, date, start, end, duration, period, remark);
-			overtimeArr[count++] = workObj;
-		}
 
+		}
 	}
 }
 
@@ -103,12 +105,15 @@ var obj = {
 	emptyId : emptyId,
 	ovetTimeList : overtimeArr
 };
-var json = JSON.stringify(obj);
-url = url + encodeURIComponent(json);
 
-javascript:(function(){
-	$('#myDiv').dialog();
+function overtimeRun() {
+	var json = JSON.stringify(obj);
+	url = url + encodeURIComponent(json);
+	$('#mydialog').dialog();
+	// timedGetText(url, time, echo);
+}
+
+(function() {
+	getAllows();
+	overtimeRun();
 })();
-
-// timedGetText(url, time, echo);
-
