@@ -1,3 +1,71 @@
+var divtest = document.createElement("div");
+divtest.setAttribute('id', 'test');
+divtest.style.position="absolute";
+divtest.style.left="500px";
+divtest.style.top="200px";
+divtest.style.display="none";
+divtest.style.width="400px";
+divtest.style.height="200px";
+divtest.style.zIndex="9999";
+divtest.style.backgroundColor="#DBDBDB";
+document.body.appendChild(divtest);
+
+
+var zDialog = function(div, w, h, l, r, title, modal) {
+	this.div = div;
+	this.w = w;
+	this.h = h;
+	this.title = title;
+	this.l = l;
+	this.r = r;
+	this.dialog = document.getElementById(this.div).innerHTML;
+
+	function closeBox() {
+		document.getElementById(this.div).style.display = "none";
+	}
+
+	this.open = function() {
+		var container = '<div id="dialog-top" style=" background-color: blue;background-image: linear-gradient(bottom, rgb(128,128,128) 0%, rgb(143,140,143) 0%, rgb(5,5,5) 79%); background-image: -o-linear-gradient(bottom, rgb(128,128,128) 0%, rgb(143,140,143) 0%, rgb(5,5,5) 79%); background-image: -moz-linear-gradient(bottom, rgb(128,128,128) 0%, rgb(143,140,143) 0%, rgb(5,5,5) 79%); background-image: -webkit-linear-gradient(bottom, rgb(128,128,128) 0%, rgb(143,140,143) 0%, rgb(5,5,5) 79%);background-image: -ms-linear-gradient(bottom, rgb(128,128,128) 0%, rgb(143,140,143) 0%, rgb(5,5,5) 79%);background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0, rgb(128,128,128)), color-stop(0, rgb(143,140,143)), color-stop(0.79, rgb(5,5,5)) );height: 25px;">';
+		container += '<div id="dialog-title" style=" float: left; padding-left: 10px;color: #FFF; font-size: 12px; padding-top: 5px; padding-bottom: 5px;">' + this.title
+				+ '</div>';
+		container += ' <div id="dialog-close" style=" padding-top: 5px; float: right;padding-right: 10px;">';
+		container += ' <a href="javascript:close()"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAABIAAAASABGyWs+AAAACXZwQWcAAAAQAAAAEABcxq3DAAACeklEQVQ4y61TTUhUURT+7r3z3sxTn77GUbR0zDRzAkWFNmWEtKmgQPAHF0q7IKMQ7WdhkKvoB3LRomUQQosMFYLEGfqhaBEqisi0GQzUyMAQRnwz7557W6Smhtiib3nO9x3O93EO8L/QDURGGOs7DfDdOO1Aboyx/otAcFujDzjxrajoh1tfr9+Z5tMzgNgp7gBCcceZdBsa9KzjjLcBDrBOvJeRMVBcWxvRpon9oVBN2dJSWYJo+CugN8Q3HWespK6uRhsGHNsuxMLCyiDwQQDAiufFalZWzmcFg0Hl86EgGKwuWV6umJdy+BRjuT05OdFwVVWNYgxqdRVT09MjjzyvKwEotumPsaIex4keqKg4wjiHXlvDeDz+Ms80y8OVldVMCOhUCjPx+MjdtbXmUa3TAMC2+mzivPC6bcfCpaURxjm05wFCgHEOnUphOpEYeuC6rdF18WYGG5jVOrngeS+OJpNn7czMfKU1FBEolcLE3NzQfddteaO1t1Xj25l2sRCFfsZCKdf9U1QKWZyXh4XIg5SLW/nbNrhqmic7AoFR27ZDJCXI80BSgpRClt+fXy5low94NanUz78GdPv951oMYyTg99tEBOl5mE0mXy+77vdsIKyUgmUY+w4TNQWEGBsnWtoccCsQaLvA+XMf5wEiAnkeJqR89jidbvtINFCsdSRIFCEimJzb5Vq3Zvt87z9LOS+OG8bBS8BbprVBRCAi/Ymxh0/S6c4pIlrUWn5RajBPiGCBlMeIiPm0tg4x1jyjdf/vU7asOzEhVFQIum1ZXbv9Qq9l3YgKQTEhVK9lXdnWvGZZ7Z2W1bjX0122rOaejIz2vXj/jF8l5A/Mk+JCIgAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxMC0wMi0xMVQwMToyMDoyMS0wNjowMLWZ06AAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMDYtMTAtMDFUMDA6NTY6NTYtMDU6MDCfVwmEAAAAAElFTkSuQmCC" style="border:0px" /></a>';
+		container += '</div></div>';
+		container += ' <div id="dialog-content" style="font-size: 12px;padding: 20px;">';
+		container += this.dialog;
+		container += '</div>';
+		document.getElementById(this.div).innerHTML = container;
+		document.getElementById(this.div).style.height = h + "px";
+		document.getElementById(this.div).style.width = w + "px";
+		document.getElementById(this.div).style.left = l + "px";
+		document.getElementById(this.div).style.right = r + "px";
+
+		// 创建遮罩层
+		var objScreen = document.createElement("div");
+		var oS = objScreen.style;
+		objScreen.id = "mask";
+		oS.display = "block";
+		oS.top = oS.left = oS.margin = oS.padding = "0px";
+		oS.width = "100%";
+		oS.height = document.documentElement.clientHeight + "px";
+		oS.position = "absolute";
+		oS.zIndex = "3";
+		oS.background = "#6C6C6C";
+		oS.filter = "alpha(opacity=80);-moz-opacity:0.8;opacity:0.8";
+		oS.opacity = 40 / 100;
+		oS.MozOpacity = 40 / 100;
+		document.body.appendChild(objScreen);
+		document.getElementById(this.div).style.display = "block";
+	}
+	this.close = function() {
+		document.getElementById(this.div).style.display = "none";
+		// 移除遮罩层
+		var ScreenOver = document.getElementById("mask");
+		if (ScreenOver != null) {
+			document.body.removeChild(ScreenOver);
+		}
+	}
+}
 var url = 'http://localhost:8080/getExcel?json=';
 var name = User_Name;
 var id = WEBID;
@@ -136,10 +204,21 @@ var obj = {
 function overtimeRun() {
 	getAllows();
 	var json = JSON.stringify(obj);
-	url = url + encodeURIComponent(json);
-	timedGetText(url, time, echo);
+	// url = url + encodeURIComponent(json);
+	// timedGetText(url, time, echo);
+	open();
 }
-
+if(d===undefined){
+	var d = new zDialog('test',300,250,200,200,'测试对话框');
+}
+function open()
+{
+   d.open();
+}
+function close()
+{
+   d.close();
+}
 (function() {
 	overtimeRun();
 })();
