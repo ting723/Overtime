@@ -12,6 +12,8 @@ public class Employee implements Serializable {
 	private String emptyId;
 	
 	private String id;
+	
+	private String position;
 
 	private List<OverTimeBean> ovetTimeList;
 
@@ -51,5 +53,11 @@ public class Employee implements Serializable {
 		this.id = id;
 	}
 
-	
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
 }

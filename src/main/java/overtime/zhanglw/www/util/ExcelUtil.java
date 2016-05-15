@@ -42,7 +42,7 @@ public class ExcelUtil {
 			createApplyExcel("excel/apply.xlsx", employee);
 			writeExcel("excel/model.xlsx", employee);
 			url += excelName;
-			url = url + "$" + "http://localhost:8080/"+excelApplyName;
+			url = url + "$" + "http://localhost:8080/" + excelApplyName;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -110,7 +110,7 @@ public class ExcelUtil {
 				row.getCell(1).setCellStyle(commonStyle);
 
 				row.createCell(2);
-				row.getCell(2).setCellValue("");
+				row.getCell(2).setCellValue(employee.getPosition());
 				row.getCell(2).setCellStyle(commonStyle);
 
 				row.createCell(3);
@@ -141,6 +141,8 @@ public class ExcelUtil {
 				row.getCell(9).setCellValue(Constant.TREATMENT);
 				row.getCell(9).setCellStyle(commonStyle);
 			}
+			sheet1.autoSizeColumn((short) 1);
+			sheet1.autoSizeColumn((short) 2);
 			int num = 4 + employee.getOvetTimeList().size();
 			Row sumrow = sheet1.getRow(num);
 			sumrow.createCell(7);
@@ -210,15 +212,15 @@ public class ExcelUtil {
 				applyRow.createCell(0);
 				applyRow.getCell(0).setCellValue(employee.getEmptyId());
 				applyRow.getCell(0).setCellStyle(commonStyle);
-				
+
 				applyRow.createCell(1);
 				applyRow.getCell(1).setCellValue(employee.getName());
 				applyRow.getCell(1).setCellStyle(commonStyle);
 
 				applyRow.createCell(2);
-				applyRow.getCell(2).setCellValue("");
+				applyRow.getCell(2).setCellValue(employee.getPosition());
 				applyRow.getCell(2).setCellStyle(commonStyle);
-				
+
 				applyRow.createCell(3);
 				applyRow.getCell(3).setCellValue(sdf.parse(bean.getDate()));
 				applyRow.getCell(3).setCellStyle(dateStyle);
@@ -235,6 +237,8 @@ public class ExcelUtil {
 				applyRow.getCell(6).setCellValue(bean.getRemark());
 				applyRow.getCell(6).setCellStyle(commonStyle);
 			}
+			sheet1.autoSizeColumn((short) 1);
+			sheet1.autoSizeColumn((short) 2);
 			ClassPathResource file1 = new ClassPathResource("static/overtime.js");
 			FileOutputStream fOut = new FileOutputStream(file1.getFile().getParent() + File.separator + excelApplyName);
 			wb.write(fOut);
@@ -244,4 +248,5 @@ public class ExcelUtil {
 			e.printStackTrace();
 		}
 	}
+
 }
